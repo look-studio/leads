@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asesores Comerciales 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 33px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            text-align: center;
+            position: relative;
+        }
+        .card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #cccccc;
+            position: relative;
+        }
+        .whatsapp-icon {
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            background: none;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .whatsapp-icon img {
+            width: 24px;
+            height: 24px;
+            border-radius: 0;
+            border: none;
+            object-fit: contain;
+        }
+        .card h3 {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .card a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25d366;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            gap: 5px;
+        }
+        .card a:hover {
+            background-color: #1da851;
+        }
+        
+        select {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Recibe asesoria <br>personalizada y especializada</h1>
+
+    <label for="ciudad">Selecciona tu ciudad:</label>
+<br>
+    <select id="ciudad" onchange="cargarAsesores()">
+        <option value="">Seleccionna</option>
+        <option value="Bogotá">Bogotá</option>
+        <option value="Cali">Cali</option>
+        <option value="Medellín">Medellín</option>
+    </select>
+
+    <div class="container" id="asesores-container"></div>
+
+    <script>
+        // Base de datos de asesores por ciudad
+        const asesoresPorCiudad = {
+            "Bogotá": [
+                { nombre: "Milton Bogotá", telefono: "3204149864", foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgO_t0jc26aJiOQvhnEjvsoKKFkGCDxrpraw&s" },
+                { nombre: "Juan Bogotá", telefono: "3204149864", foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgO_t0jc26aJiOQvhnEjvsoKKFkGCDxrpraw&s" },
+                { nombre: "Karla", telefono: "3204149864", foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF-Q-PL54aMpV-os5xObj78MNz4PgfEuB0jQ&s" }
+            ],
+            "Cali": [
+                { nombre: "Pedro Cali", telefono: "3204149964", foto: "https://via.placeholder.com/100" },
+                { nombre: "Pato Cali", telefono: "3204149864", foto: "https://via.placeholder.com/100" },
+                { nombre: "Alix", telefono: "3204149864", foto: "https://via.placeholder.com/100" }
+            ],
+            "Medellín": [
+                { nombre: "Jesús Mede", telefono: "3204149864", foto: "https://via.placeholder.com/100" },
+                { nombre: "Cami Mede", telefono: "3204149864", foto: "https://via.placeholder.com/100" },
+                { nombre: "Juan Mede", telefono: "3204149864", foto: "https://via.placeholder.com/100" }
+            ]
+        };
+
+        // Función para seleccionar 2 asesores aleatoriamente
+        function obtenerAsesoresAleatorios(array, cantidad) {
+            return array.sort(() => Math.random() - 0.5).slice(0, cantidad);
+        }
+
+        // Función para cargar asesores de la ciudad seleccionada
+        function cargarAsesores() {
+            const ciudadSeleccionada = document.getElementById("ciudad").value;
+            const container = document.getElementById("asesores-container");
+            container.innerHTML = ""; // Limpiar asesores previos
+
+            if (!ciudadSeleccionada) return; // No hacer nada si no se selecciona ciudad
+
+            const asesores = asesoresPorCiudad[ciudadSeleccionada];
+            const asesoresSeleccionados = obtenerAsesoresAleatorios(asesores, 2);
+
+            // Generar HTML dinámicamente
+            asesoresSeleccionados.forEach(asesor => {
+                const card = document.createElement("div");
+                card.classList.add("card");
+                card.innerHTML = `
+                    <div style="position: relative; display: inline-block;">
+                        <img src="${asesor.foto}" alt="${asesor.nombre}">
+                        <a href="https://wa.me/57${asesor.telefono}" class="whatsapp-icon" target="_blank">
+                            <img src="whatsapp.png" alt="WhatsApp">
+                        </a>
+                    </div>
+                    <h3>${asesor.nombre}</h3>
+                    <a href="https://wa.me/57${asesor.telefono}?text=Hola%2C%20${asesor.nombre}%20estoy%20interesado en los Planes de Atencón Complaemtaria" target="_blank">
+                        Contactar
+                    </a>
+                `;
+                container.appendChild(card);
+            });
+        }
+    </script>
+
+</body>
+</html>
